@@ -1,10 +1,13 @@
 package com.example.sistemaHolerite.salario.model;
 
+import com.example.sistemaHolerite.funcionario.model.FuncionarioModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_salario")
@@ -18,6 +21,8 @@ public class SalarioModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private LocalDateTime dataSalario;
+
     private Double salarioBruto;
 
     private Double descontoInss;
@@ -27,5 +32,9 @@ public class SalarioModel {
     private Boolean valeTransporte;
 
     private Double salarioLiquido;
+
+    @ManyToOne
+    @JoinColumn(name = "funcionario_id", nullable = false)
+    private FuncionarioModel funcionario;
 
 }

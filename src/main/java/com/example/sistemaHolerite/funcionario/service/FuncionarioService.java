@@ -35,7 +35,6 @@ public class FuncionarioService {
 
         funcionario.setNome(funcionarioAtualizado.getNome());
         funcionario.setDependentes(funcionarioAtualizado.getDependentes());
-        funcionario.setSalario(funcionarioAtualizado.getSalario());
 
         funcionarioRepository.save(funcionario);
     }
