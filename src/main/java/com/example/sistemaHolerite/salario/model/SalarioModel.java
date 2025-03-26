@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_salario")
@@ -21,9 +21,7 @@ public class SalarioModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime dataSalario;
-
-    private Double salarioBruto;
+    private LocalDate dataSalario;
 
     private Double descontoInss;
 

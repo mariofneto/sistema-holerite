@@ -39,4 +39,10 @@ public class FuncionarioController {
         funcionarioService.delete(id);
     }
 
+    @PostMapping("/holerite/gerar/{id}")
+    public String gerarHolerite(@PathVariable Long id){
+        funcionarioService.gerarHolerite(id);
+        return "Holerite criado na entidade funcionario com sucesso!";
+    }
+
 }

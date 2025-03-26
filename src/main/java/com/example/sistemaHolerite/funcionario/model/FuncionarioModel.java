@@ -26,8 +26,7 @@ public class FuncionarioModel {
 
     private Integer dependentes;
 
-    @OneToOne
-    private SalarioModel ultimoSalario;
+    private Double salarioBruto;
 
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SalarioModel> salarios;
