@@ -1,6 +1,7 @@
 package com.example.sistemaHolerite.funcionario.model;
 
 import com.example.sistemaHolerite.salario.model.SalarioModel;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,9 +27,12 @@ public class FuncionarioModel {
 
     private Integer dependentes;
 
+    private Boolean temValeTransporte;
+
     private Double salarioBruto;
 
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<SalarioModel> salarios;
 
 

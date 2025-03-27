@@ -19,12 +19,12 @@ public class FuncionarioService {
     private SalarioService salarioService;
 
     // buscar todos funcionarios
-    public List<FuncionarioModel> getAll(){
+    public List<FuncionarioModel> findAll(){
         return funcionarioRepository.findAll();
     }
 
     //buscar um funcionario
-    public FuncionarioModel getById(Long id){
+    public FuncionarioModel findById(Long id){
         return funcionarioRepository.findById(id).orElseThrow();
     }
 
@@ -48,26 +48,5 @@ public class FuncionarioService {
         funcionarioRepository.deleteById(id);
     }
 
-    public void gerarHolerite(Long id){
 
-        FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
-
-        //SalarioModel salarioModel = salarioRepository.findById(salario.getId()).orElseThrow();
-        Double inss = salarioService.inss(funcionario.getId());
-        Double irrf = salarioService.irrf(funcionario.getId());
-        Double valeTransporte = salarioService.valeTransporte(funcionario.getId());
-        Double salarioLiquido = salarioService.salarioLiquido(funcionario.getId());
-
-
-        // Exibindo os resultados com System.out.println()
-        System.out.println("------------------------");
-        System.out.println("Holerite -> " + salarioService.dataHolerite());
-        System.out.println("------------------------");
-        System.out.println("Nome do Funcionário: " + funcionario.getNome());
-        System.out.printf("Salário Bruto: R$ %.2f%n", funcionario.getSalarioBruto());
-        System.out.printf("Desconto INSS: R$ %.2f%n", inss);
-        System.out.printf("Desconto IRRF: R$ %.2f%n", irrf);
-        System.out.printf("Vale Transporte: R$ %.2f%n", valeTransporte);
-        System.out.printf("Salário Líquido: R$ %.2f%n", salarioLiquido);
-    }
 }

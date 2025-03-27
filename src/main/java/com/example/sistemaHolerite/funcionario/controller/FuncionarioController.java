@@ -15,13 +15,13 @@ public class FuncionarioController {
     private FuncionarioService funcionarioService;
 
     @GetMapping("/")
-    public List<FuncionarioModel> getAll(){
-        return funcionarioService.getAll();
+    public List<FuncionarioModel> findAll(){
+        return funcionarioService.findAll();
     }
 
     @GetMapping("/{id}")
-    public FuncionarioModel getById(@PathVariable Long id){
-        return funcionarioService.getById(id);
+    public FuncionarioModel findById(@PathVariable Long id){
+        return funcionarioService.findById(id);
     }
 
     @PostMapping("/")
@@ -39,10 +39,5 @@ public class FuncionarioController {
         funcionarioService.delete(id);
     }
 
-    @PostMapping("/holerite/gerar/{id}")
-    public String gerarHolerite(@PathVariable Long id){
-        funcionarioService.gerarHolerite(id);
-        return "Holerite criado na entidade funcionario com sucesso!";
-    }
 
 }

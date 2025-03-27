@@ -6,7 +6,7 @@ import com.example.sistemaHolerite.salario.repository.SalarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
@@ -19,12 +19,11 @@ public class SalarioService {
     private FuncionarioRepository funcionarioRepository;
 
 
-    public String dataHolerite(){
-        LocalDate hoje = LocalDate.now();
+    public String dataHoraHolerite(LocalDateTime agora){
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
 
-        return hoje.format(formatter);
+        return agora.format(formatter);
     }
 
     /*
@@ -79,13 +78,25 @@ public class SalarioService {
     public Double valeTransporte(Long id){
         FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
         Double salarioBruto = funcionario.getSalarioBruto();
-        return salarioBruto * 0.06;
+
+        if(funcionario.getTemValeTransporte()){
+            if(salarioBruto * 0.06 > 300){
+                return 300.00; // teto máximo do vale transporte
+            }
+            else return salarioBruto * 0.06;
+        }
+        else{
+            return 0.0;
+        }
     }
 
     // calculo salario liquido
     public Double salarioLiquido(Long id){
         FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
-        return funcionario.getSalarioBruto() - inss(id) - irrf(id) - valeTransporte(id);
+        Double salarioLiquido = funcionario.getSalarioBruto() - inss(id) - irrf(id) - valeTransporte(id);
+
+
+        return salarioLiquido;
     }
 
 }
