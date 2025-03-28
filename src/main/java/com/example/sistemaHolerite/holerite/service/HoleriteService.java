@@ -34,18 +34,22 @@ public class HoleriteService {
 
         return funcionario.getSalarios();
     }
-    /*
-    // retorna um holerite de um funcionario
-    public SalarioModel findById(Long id){
-        FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
 
-        return S
-    }
-*/
 
     // gera o holerite bonitin
     public void gerarHolerite(Long id){
         FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
+
+        // verifica se já tem holerite nesse mês
+        boolean temHoleriteNoMes = funcionario.getSalarios().stream()
+                .anyMatch(salario ->
+                        salario.getDataSalario().getMonthValue() == LocalDateTime.now().getMonthValue());
+
+        if (temHoleriteNoMes) {
+            System.out.println("Você já tem um holerite neste mês, colega!");
+        }
+
+        else{
 
         LocalDateTime dataSalario = LocalDateTime.now();
         Double inss = salarioService.inss(funcionario.getId());
@@ -62,7 +66,6 @@ public class HoleriteService {
                 funcionario
         );
 
-        //funcionario.getSalarios().add(salario);
         funcionarioRepository.save(funcionario);
 
         HoleriteModel holerite = new HoleriteModel(
@@ -80,7 +83,7 @@ public class HoleriteService {
         System.out.printf("(-)Desconto IRRF: R$ %.2f%n", irrf);
         System.out.printf("(-)Vale Transporte: R$ %.2f%n", valeTransporte);
         System.out.printf("Salário Líquido: R$ %.2f%n", salarioLiquido);
-    }
+    }}
 
 
 

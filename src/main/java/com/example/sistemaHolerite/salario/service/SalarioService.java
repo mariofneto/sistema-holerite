@@ -40,9 +40,9 @@ public class SalarioService {
         Double salarioBruto = funcionario.getSalarioBruto();
 
         if(salarioBruto < 1518.00) return salarioBruto * 0.075;
-        if(salarioBruto < 2793.88) return salarioBruto * 0.09;
-        if(salarioBruto < 4190.83) return salarioBruto * 0.12;
-        if(salarioBruto < 8157.41) return salarioBruto * 0.14;
+        else if(salarioBruto < 2793.88) return salarioBruto * 0.09;
+        else if(salarioBruto < 4190.83) return salarioBruto * 0.12;
+        else if(salarioBruto < 8157.41) return salarioBruto * 0.14;
         else return 8157.41 * 0.14;
     }
 
@@ -64,10 +64,10 @@ public class SalarioService {
 
         Double irrfValor;
 
-        if(baseDeCalculoIrrf < 2259.20) irrfValor = 0.0;
-        if(baseDeCalculoIrrf < 2826.65) irrfValor = (baseDeCalculoIrrf * 0.075) - 169.44;
-        if(baseDeCalculoIrrf < 3751.05) irrfValor = (baseDeCalculoIrrf * 0.15) - 381.44;
-        if(baseDeCalculoIrrf < 4664.68) irrfValor = (baseDeCalculoIrrf * 0.225) - 662.77;
+        if(baseDeCalculoIrrf < 2259.21) irrfValor = 0.0;
+        else if(baseDeCalculoIrrf < 2826.66) irrfValor = (baseDeCalculoIrrf * 0.075) - 169.44;
+        else if(baseDeCalculoIrrf < 3751.06) irrfValor = (baseDeCalculoIrrf * 0.15) - 381.44;
+        else if(baseDeCalculoIrrf >= 4664.68) irrfValor = (baseDeCalculoIrrf * 0.225) - 662.77;
         else irrfValor = (baseDeCalculoIrrf * 0.275) - 896.00;
 
         return irrfValor;
