@@ -1,17 +1,13 @@
 package com.example.sistemaHolerite.funcionario.controller;
 
-import com.example.sistemaHolerite.funcionario.model.FuncionarioModel;
-import com.example.sistemaHolerite.funcionario.service.FuncionarioService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/funcionario")
 public class FuncionarioController {
 
-    @Autowired
+   /* @Autowired
     private FuncionarioService funcionarioService;
 
     @GetMapping("/")
@@ -38,6 +34,6 @@ public class FuncionarioController {
     public void delete(@PathVariable Long id){
         funcionarioService.delete(id);
     }
-
+*/
 
 }

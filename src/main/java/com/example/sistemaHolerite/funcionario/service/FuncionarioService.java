@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FuncionarioService {
@@ -33,19 +34,14 @@ public class FuncionarioService {
         funcionarioRepository.save(funcionarioModel);
     }
 
-    // editar um funcionario
-    public void update(Long id, FuncionarioModel funcionarioAtualizado){
-        FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
-
-        funcionario.setNome(funcionarioAtualizado.getNome());
-        funcionario.setDependentes(funcionarioAtualizado.getDependentes());
-
-        funcionarioRepository.save(funcionario);
-    }
-
     // deletar um funcionario
     public void delete(Long id){
         funcionarioRepository.deleteById(id);
+    }
+
+    public boolean validarLogin(String nome, String senha) {
+        Optional<FuncionarioModel> funcionario = funcionarioRepository.findByNomeAndSenha(nome, senha);
+        return funcionario.isPresent(); // Retorna true se encontrou, false se não
     }
 
 

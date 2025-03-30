@@ -44,4 +44,60 @@ public class SalarioModel {
         this.salarioLiquido = salarioLiquido;
         this.funcionario = funcionario;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getDataSalario() {
+        return dataSalario;
+    }
+
+    public void setDataSalario(LocalDateTime dataSalario) {
+        this.dataSalario = dataSalario;
+    }
+
+    public Double getDescontoInss() {
+        return descontoInss;
+    }
+
+    public void setDescontoInss(Double descontoInss) {
+        this.descontoInss = descontoInss;
+    }
+
+    public Double getDescontoIrrf() {
+        return descontoIrrf;
+    }
+
+    public void setDescontoIrrf(Double descontoIrrf) {
+        this.descontoIrrf = descontoIrrf;
+    }
+
+    public Double getDescontoValeTransporte() {
+        return descontoValeTransporte;
+    }
+
+    public void setDescontoValeTransporte(Double descontoValeTransporte) {
+        this.descontoValeTransporte = descontoValeTransporte;
+    }
+
+    public Double getSalarioLiquido() {
+        return salarioLiquido;
+    }
+
+    public void setSalarioLiquido(Double salarioLiquido) {
+        this.salarioLiquido = salarioLiquido;
+    }
+
+    public FuncionarioModel getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(FuncionarioModel funcionario) {
+        this.funcionario = funcionario;
+    }
 }

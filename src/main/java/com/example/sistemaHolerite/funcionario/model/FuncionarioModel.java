@@ -25,6 +25,8 @@ public class FuncionarioModel {
 
     private String nome;
 
+    private String senha;
+
     private Integer dependentes;
 
     private Boolean temValeTransporte;
@@ -35,5 +37,59 @@ public class FuncionarioModel {
     @JsonManagedReference
     private List<SalarioModel> salarios;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public Integer getDependentes() {
+        return dependentes;
+    }
+
+    public void setDependentes(Integer dependentes) {
+        this.dependentes = dependentes;
+    }
+
+    public Boolean getTemValeTransporte() {
+        return temValeTransporte;
+    }
+
+    public void setTemValeTransporte(Boolean temValeTransporte) {
+        this.temValeTransporte = temValeTransporte;
+    }
+
+    public Double getSalarioBruto() {
+        return salarioBruto;
+    }
+
+    public void setSalarioBruto(Double salarioBruto) {
+        this.salarioBruto = salarioBruto;
+    }
+
+    public List<SalarioModel> getSalarios() {
+        return salarios;
+    }
+
+    public void setSalarios(List<SalarioModel> salarios) {
+        this.salarios = salarios;
+    }
 }

@@ -27,4 +27,28 @@ public class HoleriteModel {
         this.funcionarioModel = funcionario;
         this.salarioModel = salario;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public FuncionarioModel getFuncionarioModel() {
+        return funcionarioModel;
+    }
+
+    public void setFuncionarioModel(FuncionarioModel funcionarioModel) {
+        this.funcionarioModel = funcionarioModel;
+    }
+
+    public SalarioModel getSalarioModel() {
+        return salarioModel;
+    }
+
+    public void setSalarioModel(SalarioModel salarioModel) {
+        this.salarioModel = salarioModel;
+    }
 }
