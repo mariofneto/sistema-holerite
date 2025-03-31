@@ -35,10 +35,16 @@ public class HoleriteService {
         return funcionario.getSalarios();
     }
 
+    public List<HoleriteModel> findByFuncionarioNome(String nome) {
+        return holeriteRepository.findByFuncionarioModel_Nome(nome);
+    }
 
-    // gera o holerite bonitin
-    public void gerarHolerite(Long id){
-        FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
+    public List<HoleriteModel> findAll(){
+        return holeriteRepository.findAll();
+    }
+
+    public void gerarHolerite(String nome){
+        FuncionarioModel funcionario = funcionarioRepository.findByNome(nome).orElseThrow();
 
         // verifica se já tem holerite nesse mês
         boolean temHoleriteNoMes = funcionario.getSalarios().stream()
@@ -84,7 +90,29 @@ public class HoleriteService {
         System.out.printf("(-)Vale Transporte: R$ %.2f%n", valeTransporte);
         System.out.printf("Salário Líquido: R$ %.2f%n", salarioLiquido);
     }}
+    /*
+    public void gerarHoleriteEmPdf(){
+        String destino = "Z:/pdfExample/sample.pdf";
+        PdfWriter writer = new PdfWriter(destino);
 
+        PdfDocument pdfDoc = new PdfDocument(writer);
+        Document document = new Document(pdfDoc);
 
+        document.add(new Paragraph("------------------------"));
+        document.add(new Paragraph("Holerite -> " + salarioService.dataHoraHolerite(dataSalario)));
+        document.add(new Paragraph("------------------------"));
+        document.add(new Paragraph("Nome do Funcionário: " + funcionario.getNome()));
+        document.add(new Paragraph(String.format("Salário Bruto: R$ %.2f%n", funcionario.getSalarioBruto())));
+        document.add(new Paragraph(String.format("(-)Desconto INSS: R$ %.2f%n", inss)));
+        document.add(new Paragraph(String.format("(-)Desconto IRRF: R$ %.2f%n", irrf)));
+        document.add(new Paragraph(String.format("(-)Vale Transporte: R$ %.2f%n", valeTransporte)));
+        document.add(new Paragraph(String.format("Salário Líquido: R$ %.2f%n", salarioLiquido)));
 
+        document.close();
+    }
+    */
+
+    public HoleriteModel findById(Long id) {
+        return holeriteRepository.findById(id).orElseThrow();
+    }
 }

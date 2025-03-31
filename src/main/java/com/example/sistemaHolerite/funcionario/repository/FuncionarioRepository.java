@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface FuncionarioRepository extends JpaRepository<FuncionarioModel, Long> {
     Optional<FuncionarioModel> findByNomeAndSenha(String nome, String senha);
+    Optional<FuncionarioModel> findByNome(String nome);
 }

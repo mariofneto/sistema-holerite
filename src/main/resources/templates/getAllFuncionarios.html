@@ -7,28 +7,30 @@
     <link rel="stylesheet" href="/static/style.css">
     <title>Funcionários</title>
 </head>
-<body>
-    <table class="table table-bordered table table-striped">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nome</th>
-                <th>Dependentes</th>
-                <th>ValeTransporte</th>
-                <th>Salário Bruto</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="funcionario : ${funcionarios}">
-                <td th:text="${funcionario.getId}"></td>
-                <td th:text="${funcionario.getNome}"></td>
-                <td th:text="${funcionario.getDependentes}"></td>
-                <td th:text="${funcionario.getTemValeTransporte}"></td>
-                <td th:text="${funcionario.getSalarioBruto}"></td>
-            </tr>
-        </tbody>
-    </table>
-    <div><a href="loginFuncionario.html" th:href="@{/funcionario/login}">Login</a></div>
-    <div><a href="createFuncionario.html" th:href="@{/funcionario/create}">Criar um Funcionário</a></div>
+<body class="d-flex justify-content-center align-items-center vh-100">
+    <div class="container">
+        <table class="table table-bordered table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nome</th>
+                    <th>Dependentes</th>
+                    <th>ValeTransporte</th>
+                    <th>Salário Bruto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="funcionario : ${funcionarios}">
+                    <td th:text="${funcionario.Id}"></td>
+                    <td th:text="${funcionario.Nome}"></td>
+                    <td th:text="${funcionario.Dependentes}"></td>
+                    <td th:text="${funcionario.TemValeTransporte}"></td>
+                    <td th:text="${funcionario.SalarioBruto}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div><a href="loginFuncionario.html" class="btn btn-primary mb-3" th:href="@{/funcionario/login}">Login</a></div>
+        <div><a href="createFuncionario.html" class="btn btn-warning" th:href="@{/funcionario/create}">Criar um Funcionário</a></div>
+    </div>
 </body>
 </html>

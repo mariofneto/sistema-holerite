@@ -1,3 +1,17 @@
-body{
-    padding: 50px
+body {
+    margin: 0px;
+
+    height: 100vh;
 }
+
+.container {
+    width: 500px;
+    padding: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+
