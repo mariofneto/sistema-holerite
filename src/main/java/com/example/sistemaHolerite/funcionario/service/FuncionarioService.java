@@ -4,6 +4,7 @@ import com.example.sistemaHolerite.funcionario.model.FuncionarioModel;
 import com.example.sistemaHolerite.funcionario.repository.FuncionarioRepository;
 import com.example.sistemaHolerite.salario.service.SalarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,10 @@ public class FuncionarioService {
     // famosa injecao de dependencia
     @Autowired
     private FuncionarioRepository funcionarioRepository;
+
+    // para encriptar a senha
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Autowired
     private SalarioService salarioService;
@@ -36,6 +41,9 @@ public class FuncionarioService {
             System.out.println("não pode ter esses atributos nulos!");
         }
         else{
+            // encriptografando a senha
+            funcionarioModel.setSenha(encoder.encode(funcionarioModel.getSenha()));
+
             String nomeToLowerCase = funcionarioModel.getNome().toLowerCase();
 
             funcionarioModel.setNome(nomeToLowerCase);
@@ -50,8 +58,13 @@ public class FuncionarioService {
     }
 
     public boolean validarLogin(String nome, String senha) {
-        Optional<FuncionarioModel> funcionario = funcionarioRepository.findByNomeAndSenha(nome, senha);
-        return funcionario.isPresent(); // Retorna true se encontrou, false se não
+
+        Optional<FuncionarioModel> funcionario = funcionarioRepository.findByNome(nome);
+
+        boolean valid = encoder.matches(senha, funcionario.get().getSenha());
+
+
+        return valid; // Retorna se o usuario é valido
     }
 
 

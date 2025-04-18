@@ -27,6 +27,7 @@ public class FuncionarioModel {
     private Long id;
 
     @NotBlank(message = "Nome não pode ser vazio")
+    @Column(unique = true)
     private String nome;
 
     @NotBlank(message = "Senha não pode ser vazia")
