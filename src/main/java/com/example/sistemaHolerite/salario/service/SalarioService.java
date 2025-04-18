@@ -6,8 +6,8 @@ import com.example.sistemaHolerite.salario.repository.SalarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 public class SalarioService {
@@ -17,14 +17,6 @@ public class SalarioService {
 
     @Autowired
     private FuncionarioRepository funcionarioRepository;
-
-
-    public String dataHoraHolerite(LocalDateTime agora){
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
-
-        return agora.format(formatter);
-    }
 
     /*
         Tabela de alíquotas INSS 2025
@@ -39,11 +31,16 @@ public class SalarioService {
         FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
         Double salarioBruto = funcionario.getSalarioBruto();
 
-        if(salarioBruto < 1518.00) return salarioBruto * 0.075;
-        else if(salarioBruto < 2793.88) return salarioBruto * 0.09;
-        else if(salarioBruto < 4190.83) return salarioBruto * 0.12;
-        else if(salarioBruto < 8157.41) return salarioBruto * 0.14;
-        else return 8157.41 * 0.14;
+        BigDecimal bigDecimal = new BigDecimal(salarioBruto).setScale(2, RoundingMode.HALF_UP);
+        Double salarioFormatado = bigDecimal.doubleValue();
+
+
+        if(salarioBruto < 1518.00) return salarioFormatado * 0.075;
+        else if(salarioBruto < 2793.88) return salarioFormatado * 0.09;
+        else if(salarioBruto < 4190.83) return salarioFormatado * 0.12;
+        else if(salarioBruto < 8157.41) return salarioFormatado * 0.14;
+        else{  BigDecimal bigDecimal2 = new BigDecimal(8157.41 * 0.14).setScale(2, RoundingMode.HALF_UP);
+            return bigDecimal.doubleValue();}
     }
 
     /*
@@ -62,6 +59,7 @@ public class SalarioService {
         Double salarioBruto = funcionario.getSalarioBruto();
         Double baseDeCalculoIrrf = salarioBruto - inss(id) - (funcionario.getDependentes() * 189.59);
 
+
         Double irrfValor;
 
         if(baseDeCalculoIrrf < 2259.21) irrfValor = 0.0;
@@ -70,7 +68,10 @@ public class SalarioService {
         else if(baseDeCalculoIrrf >= 4664.68) irrfValor = (baseDeCalculoIrrf * 0.225) - 662.77;
         else irrfValor = (baseDeCalculoIrrf * 0.275) - 896.00;
 
-        return irrfValor;
+        BigDecimal bigDecimal = new BigDecimal(irrfValor).setScale(2, RoundingMode.HALF_UP);
+        Double irrfValorFormato = bigDecimal.doubleValue();
+
+        return irrfValorFormato;
     }
 
     // calculo do desconto do vale transporte
@@ -83,7 +84,7 @@ public class SalarioService {
             if(salarioBruto * 0.06 > 300){
                 return 300.00; // teto máximo do vale transporte
             }
-            else return salarioBruto * 0.06;
+            else return new BigDecimal(salarioBruto * 0.06).setScale(2, RoundingMode.HALF_UP).doubleValue();
         }
         else{
             return 0.0;
@@ -96,7 +97,7 @@ public class SalarioService {
         Double salarioLiquido = funcionario.getSalarioBruto() - inss(id) - irrf(id) - valeTransporte(id);
 
 
-        return salarioLiquido;
+        return new BigDecimal(salarioLiquido).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
 }

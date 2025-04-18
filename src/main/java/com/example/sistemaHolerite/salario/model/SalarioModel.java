@@ -57,9 +57,6 @@ public class SalarioModel {
         return dataSalario;
     }
 
-    public void setDataSalario(LocalDateTime dataSalario) {
-        this.dataSalario = dataSalario;
-    }
 
     public Double getDescontoInss() {
         return descontoInss;

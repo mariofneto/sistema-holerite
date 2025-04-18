@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -36,7 +36,7 @@ public class HoleriteController {
     private FuncionarioService funcionarioService;
 
     @GetMapping("/holerites/{nome}")
-    public String getHoleritesPorNome(@PathVariable String nome, Model model) throws FileNotFoundException {
+    public String getHoleritesPorNome(@PathVariable String nome, Model model) throws IOException {
 
         List<HoleriteModel> holerites = holeriteService.findByFuncionarioNome(nome);
         model.addAttribute("holerites", holerites);
@@ -54,17 +54,15 @@ public class HoleriteController {
     }
 
 
-    @GetMapping("/{id}")
-    public List<SalarioModel> findAllByFuncionario(@PathVariable Long id){
-        return holeriteService.findAllByFuncionario(id);
+    @GetMapping("/{nome}")
+    public List<SalarioModel> findAllByFuncionario(@PathVariable String nome){
+        return holeriteService.findAllByFuncionario(nome);
     }
 
     @PostMapping("/holerites/gerar/{nome}")
-    public String gerarHolerite(@PathVariable String nome, RedirectAttributes redirectAttributes) throws FileNotFoundException {
-        // Encontrar o funcionário pelo nome
+    public String gerarHolerite(@PathVariable String nome, RedirectAttributes redirectAttributes) throws IOException {
         FuncionarioModel funcionarioModel = funcionarioRepository.findByNome(nome).orElseThrow();
 
-        // Gerar o holerite usando os dados do funcionário
         holeriteService.gerarHolerite(funcionarioModel.getNome());
 
         // Mensagem de sucesso
@@ -73,10 +71,23 @@ public class HoleriteController {
         // Redirecionar para a página onde os holerites do funcionário são listados
         return "redirect:/funcionario/logado/holerites/" + nome;
     }
-    /*
-    @PostMapping("/funcionario/create")
-    public String create(FuncionarioModel funcionarioModel) {
-        funcionarioService.create(funcionarioModel);
-        return "redirect:/funcionario/create";
-    }*/
+
+    @GetMapping("/holerites/gerar/{id}")
+    public String holeriteEmPdf(@PathVariable Long id, RedirectAttributes redirectAttributes) throws IOException, InterruptedException {
+        // Encontrar o Holerite pelo id
+        HoleriteModel holeriteModel = holeriteRepository.findById(id).orElseThrow();
+
+        holeriteService.holeriteEmPdf(holeriteModel.getId());
+
+        String nome = holeriteModel.getFuncionarioModel().getNome();
+
+        // Mensagem de sucesso
+        redirectAttributes.addFlashAttribute("mensagem", "Holerite gerado com sucesso para " + nome);
+
+        // Redirecionar para a página onde os holerites do funcionário são listados
+        return "redirect:/funcionario/logado/holerites/" + nome;
+    }
+
+
+
 }
