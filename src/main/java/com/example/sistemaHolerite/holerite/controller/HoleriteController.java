@@ -41,15 +41,6 @@ public class HoleriteController {
         List<HoleriteModel> holerites = holeriteService.findByFuncionarioNome(nome);
         model.addAttribute("holerites", holerites);
 
-        // Verificar se algum holerite foi encontrado
-        if (holerites.isEmpty()) {
-            FuncionarioModel funcionarioModel = funcionarioRepository.findByNome(nome).orElseThrow();
-            holeriteService.gerarHolerite(funcionarioModel.getNome());
-
-            return "getAllHolerites";
-        }
-
-        model.addAttribute("holerites", holerites);
         return "getAllHolerites";
     }
 

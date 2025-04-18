@@ -3,14 +3,19 @@ package com.example.sistemaHolerite.funcionario.controller;
 import com.example.sistemaHolerite.funcionario.dto.FuncionarioDto;
 import com.example.sistemaHolerite.funcionario.model.FuncionarioModel;
 import com.example.sistemaHolerite.funcionario.service.FuncionarioService;
-import jakarta.servlet.http.HttpSession; // Importação para sessão
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,9 +31,23 @@ public class FuncionarioController {
     }
 
     @PostMapping("/funcionario/create")
-    public String create(FuncionarioModel funcionarioModel) {
+    public ModelAndView create(@Valid FuncionarioModel funcionarioModel, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView("redirect:/funcionario/create");
+
+            List<String> msg = new ArrayList<>();
+            for(ObjectError objectError : bindingResult.getAllErrors()){
+                msg.add(objectError.getDefaultMessage());
+            }
+
+            modelAndView.addObject("msg", msg);
+            return modelAndView;
+        }
+
         funcionarioService.create(funcionarioModel);
-        return "redirect:/funcionario/create";
+       return new ModelAndView("redirect:/");
+
     }
 
     // Receber uma lista de funcionários
@@ -49,10 +68,10 @@ public class FuncionarioController {
     @PostMapping("/funcionario/login")
     public String login(@ModelAttribute FuncionarioDto funcionarioDto, HttpSession session) {
 
-        boolean autenticado = funcionarioService.validarLogin(funcionarioDto.getNome(), funcionarioDto.getSenha());
+        boolean autenticado = funcionarioService.validarLogin(funcionarioDto.getNome().toLowerCase(), funcionarioDto.getSenha());
 
         if (autenticado) {
-            session.setAttribute("funcionarioLogado", funcionarioDto.getNome()); // Armazena na sessão
+            session.setAttribute("funcionarioLogado", funcionarioDto.getNome().toLowerCase()); // Armazena na sessão
             return "redirect:/funcionario/logado";
         } else {
             return "redirect:/funcionario/create"; // Redireciona para criar caso falhe

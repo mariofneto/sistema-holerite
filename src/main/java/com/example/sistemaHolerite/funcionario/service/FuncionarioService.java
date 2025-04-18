@@ -31,7 +31,17 @@ public class FuncionarioService {
 
     // criar um funcionario
     public void create(FuncionarioModel funcionarioModel){
-        funcionarioRepository.save(funcionarioModel);
+        if(funcionarioModel.getDependentes().equals(null) || funcionarioModel.getSalarioBruto().equals(null))
+        {
+            System.out.println("não pode ter esses atributos nulos!");
+        }
+        else{
+            String nomeToLowerCase = funcionarioModel.getNome().toLowerCase();
+
+            funcionarioModel.setNome(nomeToLowerCase);
+
+            funcionarioRepository.save(funcionarioModel);
+        }
     }
 
     // deletar um funcionario

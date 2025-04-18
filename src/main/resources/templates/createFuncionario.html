@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,46 +9,53 @@
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
 
-<div class="container col-md-4 p-3 shadow-lg rounded overflow-auto" style="max-height: 90vh;">
-    <h3 class="text-center mb-3">Criação de Funcionário</h3>
+    <div class="container col-md-4 p-3 shadow-lg rounded overflow-auto" style="max-height: 90vh;">
+        <h3 class="text-center mb-3">Criação de Funcionário</h3>
 
-    <form method="post" action="/funcionario/create">
+        <!-- era para aparecer uma msg na tela, vamos arrumar depois -->
         <div class="mb-2">
-            <label class="form-label">Nome</label>
-            <input type="text" class="form-control" name="nome">
-        </div>
-
-        <div class="mb-2">
-            <label class="form-label">Senha</label>
-            <input type="password" class="form-control" name="senha">
-        </div>
-
-        <div class="mb-2">
-            <label class="form-label">Dependentes</label>
-            <input type="number" class="form-control" name="dependentes">
-        </div>
-
-        <div class="mb-2">
-            <label class="form-label">Tem Vale Transporte?</label>
-            <select class="form-select" name="temValeTransporte">
-                <option value="true">Sim</option>
-                <option value="false">Não</option>
-            </select>
-        </div>
-
-        <div class="mb-2">
-            <label class="form-label">Salário Bruto</label>
-            <div class="input-group">
-                <span class="input-group-text">R$</span>
-                <input type="text" class="form-control" name="salarioBruto">
+            <div th:each="msg : ${msg}">
+                <span th:text="${msg}"></span>
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">Enviar</button>
-    </form>
+        <form method="post" action="/funcionario/create">
+            <div class="mb-2">
+                <label class="form-label">Nome</label>
+                <input type="text" class="form-control" name="nome">
+            </div>
 
-    <a href="getAllFuncionarios.html" class="btn btn-danger w-100 mt-2" th:href="@{/}">Voltar</a>
-</div>
+            <div class="mb-2">
+                <label class="form-label">Senha</label>
+                <input type="password" class="form-control" name="senha">
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label">Dependentes</label>
+                <input type="number" class="form-control" name="dependentes">
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label">Tem Vale Transporte?</label>
+                <select class="form-select" name="temValeTransporte">
+                    <option value="true">Sim</option>
+                    <option value="false">Não</option>
+                </select>
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label">Salário Bruto</label>
+                <div class="input-group">
+                    <span class="input-group-text">R$</span>
+                    <input type="text" class="form-control" name="salarioBruto">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Enviar</button>
+        </form>
+
+        <a href="getAllFuncionarios.html" class="btn btn-danger w-100 mt-2" th:href="@{/}">Voltar</a>
+    </div>
 
 </body>
 </html>

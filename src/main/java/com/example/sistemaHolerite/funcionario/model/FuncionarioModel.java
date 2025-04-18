@@ -3,6 +3,9 @@ package com.example.sistemaHolerite.funcionario.model;
 import com.example.sistemaHolerite.salario.model.SalarioModel;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,14 +26,18 @@ public class FuncionarioModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Nome não pode ser vazio")
     private String nome;
 
+    @NotBlank(message = "Senha não pode ser vazia")
     private String senha;
 
+    @Min(value = 0, message = "Dependentes não pode ser vazio")
     private Integer dependentes;
 
     private Boolean temValeTransporte;
 
+    @NotNull(message = "Salario Bruto não pode ser vazio")
     private Double salarioBruto;
 
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
