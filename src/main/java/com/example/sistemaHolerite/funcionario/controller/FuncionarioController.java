@@ -32,7 +32,7 @@ public class FuncionarioController {
     }
 
     // Receber uma lista de funcionários
-    @GetMapping("/funcionario/")
+    @GetMapping("/")
     public String getAll(Model model) {
         List<FuncionarioModel> funcionarios = funcionarioService.findAll();
         model.addAttribute("funcionarios", funcionarios);
