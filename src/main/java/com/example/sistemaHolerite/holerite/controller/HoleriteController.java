@@ -79,6 +79,14 @@ public class HoleriteController {
         return "redirect:/funcionario/logado/holerites/" + nome;
     }
 
+    @GetMapping("/holerites/envio/email/{id}")
+    public String envioPdfEmail(@PathVariable Long id){
+        HoleriteModel holeriteModel = holeriteRepository.findById(id).orElseThrow();
+
+        return null;
+
+    }
+
 
 
 }

@@ -14,6 +14,7 @@ import com.itextpdf.layout.element.Paragraph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +34,9 @@ public class HoleriteService {
 
     @Autowired
     private SalarioService salarioService;
+
+    @Autowired
+    private EmailService emailService;
 
     // retorna todos os holerites de um funcionario
     public List<SalarioModel> findAllByFuncionario(String nome){
@@ -93,9 +97,15 @@ public class HoleriteService {
         Runtime.getRuntime().exec("taskkill /F /IM AdobeCollabSync.exe");
         Runtime.getRuntime().exec("taskkill /F /IM armsvc.exe");
 
-        // para ter certeza que vai ter matado os processos antes de rodar novamente
         Thread.sleep(1000);
 
+        gerarPdf(id);
+
+        Runtime.getRuntime().exec(new String[]{"cmd.exe", "/c", "start", "Z:/pdfExample/sample.pdf"});
+
+    }
+
+    public void gerarPdf(Long id) throws FileNotFoundException {
         HoleriteModel holerite = holeriteRepository.findById(id).orElseThrow();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
@@ -116,13 +126,13 @@ public class HoleriteService {
         document.add(new Paragraph(String.format("(-)Desconto IRRF: R$ %.2f%n", holerite.getSalarioModel().getDescontoIrrf())));
         document.add(new Paragraph(String.format("(-)Vale Transporte: R$ %.2f%n", holerite.getSalarioModel().getDescontoValeTransporte())));
         document.add(new Paragraph(String.format("Salário Líquido: R$ %.2f%n", holerite.getSalarioModel().getSalarioLiquido())));
-
-
-        Runtime.getRuntime().exec(new String[]{"cmd.exe", "/c", "start", "Z:/pdfExample/sample.pdf"});
-
         document.close();
     }
 
+    // enviar holerite em pdf para email
+    public void envioPdfEmail(Long id){
+
+    }
 
 
 }
