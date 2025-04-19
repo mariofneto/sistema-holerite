@@ -98,6 +98,9 @@ public class HoleriteService {
 
         HoleriteModel holerite = holeriteRepository.findById(id).orElseThrow();
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
+        String horaFormatada = holerite.getSalarioModel().getDataSalario().format(formatter);
+
         String destino = "Z:/pdfExample/sample.pdf";
         PdfWriter writer = new PdfWriter(destino);
 
@@ -105,7 +108,7 @@ public class HoleriteService {
         Document document = new Document(pdfDoc);
 
         document.add(new Paragraph("------------------------"));
-        document.add(new Paragraph("Holerite -> " + holerite.getSalarioModel().getDataSalario()));
+        document.add(new Paragraph("Holerite -> " + horaFormatada));
         document.add(new Paragraph("------------------------"));
         document.add(new Paragraph("Nome do Funcionário: " + holerite.getFuncionarioModel().getNome()));
         document.add(new Paragraph(String.format("Salário Bruto: R$ %.2f%n", holerite.getFuncionarioModel().getSalarioBruto())));
