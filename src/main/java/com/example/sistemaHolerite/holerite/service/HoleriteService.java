@@ -11,9 +11,11 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -105,14 +107,15 @@ public class HoleriteService {
 
     }
 
-    public void gerarPdf(Long id) throws FileNotFoundException {
+    public byte[] gerarPdf(Long id) throws FileNotFoundException {
         HoleriteModel holerite = holeriteRepository.findById(id).orElseThrow();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
         String horaFormatada = holerite.getSalarioModel().getDataSalario().format(formatter);
 
-        String destino = "Z:/pdfExample/sample.pdf";
-        PdfWriter writer = new PdfWriter(destino);
+        //String destino = "Z:/pdfExample/sample.pdf";
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PdfWriter writer = new PdfWriter(baos);
 
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc);
@@ -127,11 +130,14 @@ public class HoleriteService {
         document.add(new Paragraph(String.format("(-)Vale Transporte: R$ %.2f%n", holerite.getSalarioModel().getDescontoValeTransporte())));
         document.add(new Paragraph(String.format("Salário Líquido: R$ %.2f%n", holerite.getSalarioModel().getSalarioLiquido())));
         document.close();
+
+        return baos.toByteArray();
     }
 
     // enviar holerite em pdf para email
-    public void envioPdfEmail(Long id){
+    public void envioHoleriteEmail(Long id) throws MessagingException, FileNotFoundException {
 
+        emailService.envioHoleriteEmail(id, gerarPdf(id));
     }
 
 

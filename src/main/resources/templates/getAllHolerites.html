@@ -32,7 +32,7 @@
             <td th:text="${holerite.salarioModel.descontoValeTransporte}"></td>
             <td th:text="${holerite.salarioModel.salarioLiquido}"></td>
             <td> <a th:href="@{/funcionario/logado/holerites/gerar/{id}(id=${holerite.getId})}" class="btn btn-success">PDF</a>
-            <td> <a th:href="@{/funcionario/logado/holerites/gerar/{id}(id=${holerite.getId})}" class="btn btn-success">Enviar PDF para Email</a>
+            <td> <a th:href="@{/funcionario/logado/holerites/envio/email/{id}(id=${holerite.getId})}" class="btn btn-success">Enviar para Email</a>
             </td>
         </tr>
         </tbody>
