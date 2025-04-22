@@ -16,9 +16,6 @@ public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-//    @Autowired
-//    private HoleriteRepository holeriteRepository;
-
     @Autowired
     private HoleriteService holeriteService;
 
