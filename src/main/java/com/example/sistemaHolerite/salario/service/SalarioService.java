@@ -39,8 +39,11 @@ public class SalarioService {
         else if(salarioBruto < 2793.88) return salarioFormatado * 0.09;
         else if(salarioBruto < 4190.83) return salarioFormatado * 0.12;
         else if(salarioBruto < 8157.41) return salarioFormatado * 0.14;
-        else{  BigDecimal bigDecimal2 = new BigDecimal(8157.41 * 0.14).setScale(2, RoundingMode.HALF_UP);
-            return bigDecimal.doubleValue();}
+        else{
+            Double tetoInss = 8157.41 * 0.14;
+
+            BigDecimal tetoInssFormatado = new BigDecimal(tetoInss).setScale(2, RoundingMode.HALF_UP);
+            return tetoInssFormatado.doubleValue();}
     }
 
     /*
