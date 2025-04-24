@@ -80,11 +80,6 @@ public class HoleriteController {
         headers.setContentDisposition(ContentDisposition.inline().filename("holerite.pdf").build());
 
         return ResponseEntity.ok().headers(headers).body(pdfBytes);
-    /*
-        String nome = holeriteModel.getFuncionarioModel().getNome();
-
-        // Redirecionar para a página onde os holerites do funcionário são listados
-        return "redirect:/funcionario/logado/holerites/" + nome;    */
     }
 
     @GetMapping("/holerites/envio/email/{id}")
