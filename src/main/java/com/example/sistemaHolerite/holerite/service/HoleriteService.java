@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -93,21 +92,13 @@ public class HoleriteService {
 
 
     // recebe o id do holerite para gerar o pdf dele
-    public void holeriteEmPdf(Long id) throws IOException, InterruptedException {
+    public byte[] holeriteEmPdf(Long id) throws IOException, InterruptedException {
 
-        Runtime.getRuntime().exec("taskkill /F /IM Acrobat.exe");
-        Runtime.getRuntime().exec("taskkill /F /IM AdobeCollabSync.exe");
-        Runtime.getRuntime().exec("taskkill /F /IM armsvc.exe");
-
-        Thread.sleep(1000);
-
-        gerarPdf(id);
-
-        Runtime.getRuntime().exec(new String[]{"cmd.exe", "/c", "start", "Z:/pdfExample/sample.pdf"});
+        return gerarPdf(id);
 
     }
 
-    public byte[] gerarPdf(Long id) throws FileNotFoundException {
+    public byte[] gerarPdf(Long id) throws IOException {
         HoleriteModel holerite = holeriteRepository.findById(id).orElseThrow();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
@@ -135,7 +126,7 @@ public class HoleriteService {
     }
 
     // enviar holerite em pdf para email
-    public void envioHoleriteEmail(Long id) throws MessagingException, FileNotFoundException {
+    public void envioHoleriteEmail(Long id) throws MessagingException, IOException {
 
         emailService.envioHoleriteEmail(id, gerarPdf(id));
     }

@@ -9,6 +9,10 @@ import com.example.sistemaHolerite.holerite.service.HoleriteService;
 import com.example.sistemaHolerite.salario.model.SalarioModel;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -66,23 +69,26 @@ public class HoleriteController {
     }
 
     @GetMapping("/holerites/gerar/{id}")
-    public String holeriteEmPdf(@PathVariable Long id, RedirectAttributes redirectAttributes) throws IOException, InterruptedException {
-        // Encontrar o Holerite pelo id
+    public ResponseEntity<byte[]> holeriteEmPdf(@PathVariable Long id) throws IOException, InterruptedException {
+
         HoleriteModel holeriteModel = holeriteRepository.findById(id).orElseThrow();
 
-        holeriteService.holeriteEmPdf(holeriteModel.getId());
+        byte[] pdfBytes = holeriteService.holeriteEmPdf(holeriteModel.getId());
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.inline().filename("holerite.pdf").build());
+
+        return ResponseEntity.ok().headers(headers).body(pdfBytes);
+    /*
         String nome = holeriteModel.getFuncionarioModel().getNome();
 
-        // Mensagem de sucesso
-        redirectAttributes.addFlashAttribute("mensagem", "Holerite gerado com sucesso para " + nome);
-
         // Redirecionar para a página onde os holerites do funcionário são listados
-        return "redirect:/funcionario/logado/holerites/" + nome;
+        return "redirect:/funcionario/logado/holerites/" + nome;    */
     }
 
     @GetMapping("/holerites/envio/email/{id}")
-    public String envioHoleriteEmail(@PathVariable Long id) throws MessagingException, FileNotFoundException {
+    public String envioHoleriteEmail(@PathVariable Long id) throws MessagingException, IOException {
         HoleriteModel holeriteModel = holeriteRepository.findById(id).orElseThrow();
         holeriteService.envioHoleriteEmail(holeriteModel.getId());
         String nome = holeriteModel.getFuncionarioModel().getNome();
