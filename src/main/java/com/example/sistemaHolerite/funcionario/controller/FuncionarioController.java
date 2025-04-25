@@ -1,6 +1,6 @@
 package com.example.sistemaHolerite.funcionario.controller;
 
-import com.example.sistemaHolerite.funcionario.dto.FuncionarioDto;
+import com.example.sistemaHolerite.funcionario.dto.LoginDto;
 import com.example.sistemaHolerite.funcionario.model.FuncionarioModel;
 import com.example.sistemaHolerite.funcionario.service.FuncionarioService;
 import jakarta.servlet.http.HttpSession;
@@ -50,12 +50,9 @@ public class FuncionarioController {
 
     }
 
-    // Receber uma lista de funcionários
     @GetMapping("/")
-    public String getAll(Model model) {
-        List<FuncionarioModel> funcionarios = funcionarioService.findAll();
-        model.addAttribute("funcionarios", funcionarios);
-        return "getAllFuncionarios";
+    public String redirecionar() {
+        return "redirect:/funcionario/login";
     }
 
     // Tela de login
@@ -64,14 +61,13 @@ public class FuncionarioController {
         return "loginFuncionario";
     }
 
-    // Processar login
     @PostMapping("/funcionario/login")
-    public String login(@ModelAttribute FuncionarioDto funcionarioDto, HttpSession session) {
+    public String login(@ModelAttribute LoginDto loginDto, HttpSession session) {
 
-        boolean autenticado = funcionarioService.validarLogin(funcionarioDto.getNome().toLowerCase(), funcionarioDto.getSenha());
+        boolean autenticado = funcionarioService.validarLogin(loginDto.getNome().toLowerCase(), loginDto.getSenha());
 
         if (autenticado) {
-            session.setAttribute("funcionarioLogado", funcionarioDto.getNome().toLowerCase()); // Armazena na sessão
+            session.setAttribute("funcionarioLogado", loginDto.getNome().toLowerCase()); // Armazena na sessão
             return "redirect:/funcionario/logado";
         } else {
             return "redirect:/funcionario/create"; // Redireciona para criar caso falhe

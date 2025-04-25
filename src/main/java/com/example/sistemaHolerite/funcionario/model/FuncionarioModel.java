@@ -1,24 +1,17 @@
 package com.example.sistemaHolerite.funcionario.model;
 
+import com.example.sistemaHolerite.roles.utils.Role;
 import com.example.sistemaHolerite.salario.model.SalarioModel;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "tb_funcionario")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 
 public class FuncionarioModel {
 
@@ -33,6 +26,10 @@ public class FuncionarioModel {
     @NotBlank(message = "Senha não pode ser vazia")
     private String senha;
 
+    @NotBlank(message = "Email não pode ser vazio")
+    @Column(unique = true)
+    private String email;
+
     @Min(value = 0, message = "Dependentes não pode ser vazio")
     private Integer dependentes;
 
@@ -40,6 +37,8 @@ public class FuncionarioModel {
 
     @NotNull(message = "Salario Bruto não pode ser vazio")
     private Double salarioBruto;
+
+    private Role role;
 
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -69,6 +68,10 @@ public class FuncionarioModel {
         this.senha = senha;
     }
 
+    public String getEmail(){return email;}
+
+    public void setEmail(String email){this.email = email;}
+
     public Integer getDependentes() {
         return dependentes;
     }
@@ -91,6 +94,14 @@ public class FuncionarioModel {
 
     public void setSalarioBruto(Double salarioBruto) {
         this.salarioBruto = salarioBruto;
+    }
+
+    public Role getRole(){
+        return role;
+    }
+
+    public void setRole(){
+        this.role = Role.FUNCIONARIO;
     }
 
     public List<SalarioModel> getSalarios() {

@@ -1,5 +1,8 @@
 package com.example.sistemaHolerite.holerite.service;
 
+import com.example.sistemaHolerite.funcionario.model.FuncionarioModel;
+import com.example.sistemaHolerite.holerite.model.HoleriteModel;
+import com.example.sistemaHolerite.holerite.repository.HoleriteRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +22,19 @@ public class EmailService {
     @Autowired
     private HoleriteService holeriteService;
 
+    @Autowired
+    private HoleriteRepository holeriteRepository;
+
     public void envioHoleriteEmail(Long id, byte[] pdfBytes) throws MessagingException, FileNotFoundException {
+        HoleriteModel holerite = holeriteRepository.findById(id).orElseThrow();
+
+        FuncionarioModel funcionario = holerite.getFuncionarioModel();
 
         ByteArrayResource recurso = new ByteArrayResource(pdfBytes);
 
-        String destinatario = "marioo.netoo4@gmail.com";
-        String assunto = "Sistema de Holerites";
-        String mensagem = "Email com o holerite";
+        String destinatario = funcionario.getEmail();
+        String assunto = "Holerite";
+        String mensagem = "Olá " + funcionario.getNome() + ", segue em anexo o seu holerite :)";
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 

@@ -31,6 +31,11 @@
             </div>
 
             <div class="mb-2">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email">
+            </div>
+
+            <div class="mb-2">
                 <label class="form-label">Dependentes</label>
                 <input type="number" class="form-control" name="dependentes">
             </div>
@@ -54,7 +59,7 @@
             <button type="submit" class="btn btn-primary w-100">Enviar</button>
         </form>
 
-        <a href="getAllFuncionarios.html" class="btn btn-danger w-100 mt-2" th:href="@{/}">Voltar</a>
+        <a href="javascript:history.back()" class="btn btn-danger w-100 mt-2">Voltar</a>
     </div>
 
 </body>

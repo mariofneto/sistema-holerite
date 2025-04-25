@@ -1,6 +1,6 @@
 package com.example.sistemaHolerite.funcionario.dto;
 
-public class FuncionarioDto {
+public class LoginDto {
 
     private String nome;
     private String senha;
