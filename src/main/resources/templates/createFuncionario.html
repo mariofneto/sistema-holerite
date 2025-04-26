@@ -12,12 +12,6 @@
     <div class="container col-md-4 p-3 shadow-lg rounded overflow-auto" style="max-height: 90vh;">
         <h3 class="text-center mb-3">Criação de Funcionário</h3>
 
-        <!-- era para aparecer uma msg na tela, vamos arrumar depois -->
-        <div class="mb-2">
-            <div th:each="msg : ${msg}">
-                <span th:text="${msg}"></span>
-            </div>
-        </div>
 
         <form method="post" action="/funcionario/create">
             <div class="mb-2">

@@ -15,10 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -55,8 +52,13 @@ public class HoleriteController {
         return holeriteService.findAllByFuncionario(nome);
     }
 
-    @PostMapping("/holerites/gerar/{nome}")
-    public String gerarHolerite(@PathVariable String nome, RedirectAttributes redirectAttributes) throws IOException {
+    @GetMapping("/holerites/gerar/")
+    public String gerarHolerite(){
+        return "createHoleriteFuncionario";
+    }
+
+    @PostMapping("/holerites/gerar/")
+    public String gerarHoleriteFuncionario(@RequestParam String nome, RedirectAttributes redirectAttributes) throws IOException {
         FuncionarioModel funcionarioModel = funcionarioRepository.findByNome(nome).orElseThrow();
 
         holeriteService.gerarHolerite(funcionarioModel.getNome());

@@ -33,11 +33,11 @@ public class FuncionarioController {
     @PostMapping("/funcionario/create")
     public ModelAndView create(@Valid FuncionarioModel funcionarioModel, BindingResult bindingResult) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("redirect:/funcionario/create");
 
             List<String> msg = new ArrayList<>();
-            for(ObjectError objectError : bindingResult.getAllErrors()){
+            for (ObjectError objectError : bindingResult.getAllErrors()) {
                 msg.add(objectError.getDefaultMessage());
             }
 
@@ -46,10 +46,9 @@ public class FuncionarioController {
         }
 
         funcionarioService.create(funcionarioModel);
-       return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/");
 
     }
-
     @GetMapping("/")
     public String redirecionar() {
         return "redirect:/funcionario/login";

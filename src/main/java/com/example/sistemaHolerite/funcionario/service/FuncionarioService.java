@@ -56,17 +56,17 @@ public class FuncionarioService {
     }
 
     public boolean validarLogin(String nome, String senha) {
-        if(nome == "admin" && senha == "admin"){
-            Optional<RhModel> rh = rhRepository.findByNome(nome);
-            return true;
+        switch(nome){
+            case "admin":
+                Optional<RhModel> rh = rhRepository.findByNome(nome);
+                if(rh.get().getNome().compareTo(nome) == 0 && rh.get().getSenha().compareTo(senha) == 0){
+                    return true;
+                }
+            default:
+                Optional<FuncionarioModel> funcionario = funcionarioRepository.findByNome(nome);
+                boolean valid = encoder.matches(senha, funcionario.get().getSenha());
+                return valid;
         }
-
-        Optional<FuncionarioModel> funcionario = funcionarioRepository.findByNome(nome);
-
-        boolean valid = encoder.matches(senha, funcionario.get().getSenha());
-
-
-        return valid;
     }
 
 
