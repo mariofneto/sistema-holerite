@@ -63,6 +63,9 @@ public class HoleriteService {
 
         FuncionarioModel funcionario = funcionarioRepository.findByNome(nome).orElseThrow();
 
+        HoleriteModel holerite  = new HoleriteModel();
+        holerite.setSalarioBrutoNaData(funcionario.getSalarioBruto());
+
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
 
@@ -84,12 +87,10 @@ public class HoleriteService {
                 funcionario
         );
 
-        funcionarioRepository.save(funcionario);
+        holerite.setFuncionarioModel(funcionario);
+        holerite.setSalarioModel(salario);
 
-        HoleriteModel holerite = new HoleriteModel(
-                funcionario,
-                salario
-        );
+        funcionarioRepository.save(funcionario);
         holeriteRepository.save(holerite);
 
     }

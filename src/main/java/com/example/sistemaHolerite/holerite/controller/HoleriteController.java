@@ -46,6 +46,20 @@ public class HoleriteController {
         return "getAllHolerites";
     }
 
+    @GetMapping("/holerites")
+    public String getHoleritesPorFuncionarioNomeHome() throws IOException {
+        return "getAllHoleritesFuncionario";
+    }
+
+    @PostMapping("/holerites")
+    public String getHoleritesPorFuncionarioNome(@RequestParam String nome, Model model) throws IOException {
+
+        List<HoleriteModel> holerites = holeriteService.findByFuncionarioNome(nome);
+        model.addAttribute("holerites", holerites);
+
+        return "getAllHolerites";
+    }
+
 
     @GetMapping("/{nome}")
     public List<SalarioModel> findAllByFuncionario(@PathVariable String nome){

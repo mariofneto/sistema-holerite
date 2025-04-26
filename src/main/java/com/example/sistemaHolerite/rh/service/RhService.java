@@ -15,15 +15,10 @@ public class RhService {
         funcionarioRepository.save(funcionarioModel);
     }
 
-    public FuncionarioModel editarFuncionario(Long id, FuncionarioModel funcionarioModel){
-        FuncionarioModel funcionarioAntigo = funcionarioRepository.findById(id).orElseThrow();
+    public FuncionarioModel editarSalarioFuncionario(String nome, Double salarioBrutoFuncionario){
+        FuncionarioModel funcionarioAntigo = funcionarioRepository.findByNome(nome).orElseThrow();
 
-        funcionarioAntigo.setNome(funcionarioModel.getNome());
-        funcionarioAntigo.setEmail(funcionarioModel.getEmail());
-        funcionarioAntigo.setSenha(funcionarioModel.getSenha());
-        funcionarioAntigo.setDependentes(funcionarioModel.getDependentes());
-        funcionarioAntigo.setSalarioBruto(funcionarioModel.getSalarioBruto());
-        funcionarioAntigo.setTemValeTransporte(funcionarioModel.getTemValeTransporte());
+        funcionarioAntigo.setSalarioBruto(salarioBrutoFuncionario);
 
         funcionarioRepository.save(funcionarioAntigo);
 

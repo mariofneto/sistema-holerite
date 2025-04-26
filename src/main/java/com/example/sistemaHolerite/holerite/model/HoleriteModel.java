@@ -3,17 +3,9 @@ package com.example.sistemaHolerite.holerite.model;
 import com.example.sistemaHolerite.funcionario.model.FuncionarioModel;
 import com.example.sistemaHolerite.salario.model.SalarioModel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "tb_holerite")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class HoleriteModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +15,21 @@ public class HoleriteModel {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private SalarioModel salarioModel;
 
+    @Column(name = "salarioBruto")
+    private Double salarioBrutoNaData;
+
+    public HoleriteModel() {
+    }
+
     public HoleriteModel(FuncionarioModel funcionario, SalarioModel salario) {
         this.funcionarioModel = funcionario;
         this.salarioModel = salario;
+    }
+
+    public HoleriteModel(FuncionarioModel funcionario, SalarioModel salario, Double salarioBrutoNaData) {
+        this.funcionarioModel = funcionario;
+        this.salarioModel = salario;
+        this.salarioBrutoNaData = salarioBrutoNaData;
     }
 
     public Long getId() {
@@ -50,5 +54,13 @@ public class HoleriteModel {
 
     public void setSalarioModel(SalarioModel salarioModel) {
         this.salarioModel = salarioModel;
+    }
+
+    public Double getSalarioBrutoNaData() {
+        return salarioBrutoNaData;
+    }
+
+    public void setSalarioBrutoNaData(Double salarioBrutoNaData) {
+        this.salarioBrutoNaData = salarioBrutoNaData;
     }
 }
