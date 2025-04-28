@@ -16,6 +16,7 @@
         <a href="getAllHoleritesFuncionario.html" class="btn btn-secondary mt-3 mb-3" th:href="@{/funcionario/logado/holerites}">Ver Todos Holerites de um Funcionário</a>
         <a href="createFuncionario.html" class="btn btn-warning mt-3 mb-3" th:href="@{/funcionario/create}">Criar um Funcionário</a>
         <a href="updateFuncionario.html" class="btn btn-secondary mt-3 mb-3" th:href="@{/funcionario/update}">Editar um Funcionário</a>
+        <a href="deleteFuncionario.html" class="btn btn-secondary mt-3 mb-3" th:href="@{/funcionario/delete}">Demitir um Funcionário</a>
     </div>
     <div th:if="${nome} != 'admin'">
         <h1 th:text="'Funcionário: ' + ${nome}" class="d-flex p-2"></h1>

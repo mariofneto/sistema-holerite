@@ -36,14 +36,25 @@ public class RhController {
     }
 
     @GetMapping("/funcionario/update")
-    public String updateFuncionario(){
+    public String updateFuncionario() {
         return "updateFuncionario";
     }
 
     @PostMapping("/funcionario/update")
-    public String updateFuncionario(@RequestParam String nome, @RequestParam Double salarioBruto){
+    public String updateFuncionario(@RequestParam String nome, @RequestParam Double salarioBruto) {
         rhService.editarSalarioFuncionario(nome, salarioBruto);
 
         return "redirect:/funcionario/logado/holerites/" + nome;
+    }
+
+    @GetMapping("/funcionario/delete")
+    public String deleteFuncionario() {
+        return "deleteFuncionario";
+    }
+
+    @PostMapping("/funcionario/delete")
+    public String deleteFuncionario(@RequestParam String nome) {
+        rhService.deletarFuncionario(nome);
+        return "redirect:/funcionario/logado";
     }
 }

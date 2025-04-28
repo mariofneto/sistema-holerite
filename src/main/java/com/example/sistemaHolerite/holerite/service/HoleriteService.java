@@ -58,6 +58,10 @@ public class HoleriteService {
         return holeriteRepository.findAll();
     }
 
+    public HoleriteModel findById(Long id){
+        return holeriteRepository.findById(id).orElseThrow();
+    }
+
     // recebe o nome do funcionario para gerar um holerite para ele
     public void gerarHolerite(String nome) {
 
