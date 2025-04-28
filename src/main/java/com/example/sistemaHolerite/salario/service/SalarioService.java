@@ -18,6 +18,11 @@ public class SalarioService {
     @Autowired
     private FuncionarioRepository funcionarioRepository;
 
+    public Double salarioBrutoAtual(Long id){
+        FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
+        return funcionario.getSalarioBruto();
+    }
+
     /*
         Tabela de alíquotas INSS 2025
         Até R$ 1.518,00: 7,5%
@@ -28,8 +33,7 @@ public class SalarioService {
      */
 
     public Double inss(Long id){
-        FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
-        Double salarioBruto = funcionario.getSalarioBruto();
+        Double salarioBruto = salarioBrutoAtual(id);
 
         BigDecimal bigDecimal = new BigDecimal(salarioBruto).setScale(2, RoundingMode.HALF_UP);
         Double salarioFormatado = bigDecimal.doubleValue();
@@ -59,7 +63,8 @@ public class SalarioService {
 
     public Double irrf(Long id){
         FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
-        Double salarioBruto = funcionario.getSalarioBruto();
+
+        Double salarioBruto = salarioBrutoAtual(id);
         Double baseDeCalculoIrrf = salarioBruto - inss(id) - (funcionario.getDependentes() * 189.59);
 
 
@@ -81,7 +86,7 @@ public class SalarioService {
 
     public Double valeTransporte(Long id){
         FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
-        Double salarioBruto = funcionario.getSalarioBruto();
+        Double salarioBruto = salarioBrutoAtual(id);
 
         if(funcionario.getTemValeTransporte()){
             if(salarioBruto * 0.06 > 300){
@@ -97,7 +102,7 @@ public class SalarioService {
     // calculo salario liquido
     public Double salarioLiquido(Long id){
         FuncionarioModel funcionario = funcionarioRepository.findById(id).orElseThrow();
-        Double salarioLiquido = funcionario.getSalarioBruto() - inss(id) - irrf(id) - valeTransporte(id);
+        Double salarioLiquido = salarioBrutoAtual(id) - inss(id) - irrf(id) - valeTransporte(id);
 
 
         return new BigDecimal(salarioLiquido).setScale(2, RoundingMode.HALF_UP).doubleValue();
