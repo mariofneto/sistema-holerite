@@ -37,6 +37,8 @@ public class FuncionarioService {
         return funcionarioRepository.findById(id).orElseThrow();
     }
 
+    public FuncionarioModel findByNome(String nome){return funcionarioRepository.findByNome(nome).orElseThrow();}
+
     // criar um funcionario
     public void create(FuncionarioModel funcionarioModel){
         if(funcionarioModel.getDependentes().equals(null) || funcionarioModel.getSalarioBruto().equals(null))
