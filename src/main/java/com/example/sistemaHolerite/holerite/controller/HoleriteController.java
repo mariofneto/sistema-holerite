@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/funcionario/logado")
@@ -73,15 +74,20 @@ public class HoleriteController {
 
     @PostMapping("/holerites/gerar/")
     public String gerarHoleriteFuncionario(@RequestParam String nome, RedirectAttributes redirectAttributes) throws IOException {
-        FuncionarioModel funcionarioModel = funcionarioRepository.findByNome(nome).orElseThrow();
 
-        holeriteService.gerarHolerite(funcionarioModel.getNome());
+        Optional<FuncionarioModel> funcionarioModel = funcionarioRepository.findByNome(nome);
 
-        // Mensagem de sucesso
-        redirectAttributes.addFlashAttribute("mensagem", "Holerite gerado com sucesso para " + nome);
+        if(funcionarioModel.isEmpty()){
+            return "redirect:/funcionario/logado/holerites/gerar/";
+        }else{
+            holeriteService.gerarHolerite(funcionarioModel.get().getNome());
 
-        // Redirecionar para a página onde os holerites do funcionário são listados
-        return "redirect:/funcionario/logado/holerites/" + nome;
+            // Mensagem de sucesso
+            redirectAttributes.addFlashAttribute("mensagem", "Holerite gerado com sucesso para " + nome);
+
+            // Redirecionar para a página onde os holerites do funcionário são listados
+            return "redirect:/funcionario/logado/holerites/" + nome;
+        }
     }
 
     @GetMapping("/holerites/gerar/{id}")
