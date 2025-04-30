@@ -61,13 +61,21 @@ public class FuncionarioService {
         switch(nome){
             case "admin":
                 Optional<RhModel> rh = rhRepository.findByNome(nome);
-                if(rh.get().getNome().compareTo(nome) == 0 && rh.get().getSenha().compareTo(senha) == 0){
-                    return true;
+                if(!rh.isEmpty()) {
+                    if (rh.get().getNome().compareTo(nome) == 0 && rh.get().getSenha().compareTo(senha) == 0) {
+                        return true;
+                    }
+                }
+                else{
+                    return false;
                 }
             default:
                 Optional<FuncionarioModel> funcionario = funcionarioRepository.findByNome(nome);
-                boolean valid = encoder.matches(senha, funcionario.get().getSenha());
-                return valid;
+                if(!funcionario.isEmpty()){
+                    boolean valid = encoder.matches(senha, funcionario.get().getSenha());
+                    return valid;
+                }
+                return false;
         }
     }
 

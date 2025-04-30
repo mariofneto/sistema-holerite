@@ -54,11 +54,13 @@ public class HoleriteController {
 
     @PostMapping("/holerites")
     public String getHoleritesPorFuncionarioNome(@RequestParam String nome, Model model) throws IOException {
-
         List<HoleriteModel> holerites = holeriteService.findByFuncionarioNome(nome);
-        model.addAttribute("holerites", holerites);
+        if(!holerites.isEmpty()){
+            model.addAttribute("holerites", holerites);
 
-        return "getAllHolerites";
+            return "getAllHolerites";
+        }
+        return "redirect:/funcionario/logado/holerites";
     }
 
 

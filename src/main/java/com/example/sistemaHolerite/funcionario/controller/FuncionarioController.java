@@ -69,7 +69,7 @@ public class FuncionarioController {
             session.setAttribute("funcionarioLogado", loginDto.getNome().toLowerCase()); // Armazena na sessão
                 return "redirect:/funcionario/logado";
         } else {
-            return "redirect:/funcionario/create"; // Redireciona para criar caso falhe
+            return "redirect:/funcionario/login"; // Redireciona para criar caso falhe
         }
     }
 

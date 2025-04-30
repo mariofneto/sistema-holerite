@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class RhController {
@@ -41,10 +42,19 @@ public class RhController {
     }
 
     @PostMapping("/funcionario/update")
-    public String updateFuncionario(@RequestParam String nome, @RequestParam Double salarioBruto) {
-        rhService.editarSalarioFuncionario(nome, salarioBruto);
+    public String updateFuncionario(@RequestParam String nome, @RequestParam Object salarioBruto) {
+        Optional<FuncionarioModel> funcionarioExiste = funcionarioRepository.findByNome(nome);
+        boolean salarioBrutoExiste = salarioBruto != null;
 
-        return "redirect:/funcionario/logado/holerites/" + nome;
+        if(salarioBrutoExiste) {
+            if (funcionarioExiste.isPresent() && salarioBruto instanceof Double) {
+                rhService.editarSalarioFuncionario(nome, ((Double) salarioBruto).doubleValue());
+
+                return "redirect:/funcionario/logado/holerites/" + nome;
+            }
+            return "redirect:/funcionario/update";
+        }
+        return "redirect:/funcionario/update";
     }
 
     @GetMapping("/funcionario/delete")
@@ -54,7 +64,12 @@ public class RhController {
 
     @PostMapping("/funcionario/delete")
     public String deleteFuncionario(@RequestParam String nome) {
-        rhService.deletarFuncionario(nome);
-        return "redirect:/funcionario/logado";
+        Optional<FuncionarioModel> funcionarioExiste = funcionarioRepository.findByNome(nome);
+
+        if(funcionarioExiste.isPresent()) {
+            rhService.deletarFuncionario(nome);
+            return "redirect:/funcionario/logado";
+        }
+        return "redirect:/funcionario/delete";
     }
 }
